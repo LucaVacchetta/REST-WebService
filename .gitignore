@@ -1,0 +1,14 @@
+/build/
+/build/**
+/target/
+/target/**
+**.class
+/war/
+/war/**
+/WebContent/WEB-INF/lib/
+/WebContent/WEB-INF/lib/**
+/WebContent/WEB-INF/classes/xsd/
+/WebContent/WEB-INF/classes/xsd/**
+
+
+
