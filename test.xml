@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="." default="runFuncTest" name="Graph-tests">
+	<description>
+			Script for run tests
+	</description>
+	
+	<property name="root" location="." />
+	<property name="build.dir" location="${root}/build" />
+	<property name="lib.dir" location="${root}/lib" />
+	<property name="testcase" value="it.polito.nffg.neo4j.tests.GraphTest"/>
+	
+	<!-- The classpath to be used for running the tests -->
+	<path id="test.classpath">
+		<pathelement location="${root}/lib/junit-4.5.jar" />
+		<pathelement location="${root}" />
+		<pathelement path="${build.dir}" /> 
+		<fileset dir="${lib.dir}">
+		    <include name="**/*.jar" />
+		</fileset>
+	</path>
+		
+	
+	<!-- Target runFuncTest -->
+	<target name="runFuncTest">
+		<antcall target="runFuncTest.real">
+			<param name="test.case" value="0" />
+			<param name="exit.code" value="126" />
+		</antcall>
+	</target>
+	
+	
+	<target name="runFuncTest.real">
+		<echo>Running Junit tests...</echo>		
+		<junit printsummary="yes" dir="." fork="yes" haltonfailure="no" showoutput="no" filtertrace="true" timeout="120000">
+			<jvmarg value="-Djava.awt.headless=true" /> 
+			<formatter type="brief" usefile="false"/>
+	  		<test haltonfailure="no" failureproperty="test_failed" name="${testcase}"/>
+			<classpath>
+				<path refid="test.classpath" />
+			</classpath>
+		</junit>
+		<fail if="test_failed" status="${exit.code}" message="*** Some Tests FAILED ***"/>
+		<echo>*** All Tests PASSED  ***</echo>
+	</target>
+
+</project>

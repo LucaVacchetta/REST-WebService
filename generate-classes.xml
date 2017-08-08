@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="generate-bindings" name="ProjectNFFG">
+	<description>
+			Script Ant for auto-generate java classes
+	</description>
+
+	<property name="src.dir" location="${basedir}/src" />
+	<property name="lib.dir" location="${basedir}/lib" />
+	<property name="schema.dir" location="${basedir}/schema" />
+	
+	<property name="debug" value="true" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.8" />
+	<property name="source" value="1.8" />
+	<property name="schemaForBinding" value="xml_components.xsd" />
+		
+	<!-- Target init -->
+	<target name="init">
+ 	</target>
+
+	<!-- Target chk-bindings -->
+	<target name="-chk-bindings">
+		<uptodate property="generate-bindings.notRequired" targetfile="${src.dir}/.flagfile">
+			<srcfiles dir="${schema.dir}" includes="**/*.xsd" />
+		</uptodate>
+	</target>
+
+	<!-- Target generate-bindings -->
+	<target name="generate-bindings" unless="generate-bindings.notRequired" depends="init,-chk-bindings" description="Generate bindings from schema">
+			<exec executable="xjc" failonerror="true" output="xjc_log.txt">
+				<arg line="-d ${src.dir} -p it.polito.nffg.neo4j.jaxb ${schema.dir}/${schemaForBinding}"/>
+			</exec>
+			<touch file="${src.dir}/.flagfile"/>
+	</target>
+	
+	<!-- Target clean -->
+	<target name="clean" description="Clean all">	
+		<delete includeemptydirs="true">
+		    <fileset dir="${basedir}" defaultexcludes="false">
+		       <include name="temp*/**" />
+		    </fileset>
+		</delete>
+	</target>
+
+</project>

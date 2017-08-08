@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="." name="Graphs">
+	<description>
+		Script for counter Web Service
+	</description>
+	
+	<property name="serviceName" value="neo4jmanager" />
+	
+	<import file="service-build.xml"/>
+	<import file="generate-classes.xml"/>	
+	
+</project>
